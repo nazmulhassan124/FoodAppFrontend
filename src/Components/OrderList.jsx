@@ -35,9 +35,13 @@ function OrderList() {
   }
 
   useEffect(() => {
-    // new DataTable('#example');
-    loadOrderData();
-  }, []);
+     new DataTable('#example');
+    // loadOrderData();
+    if (deletemsg) {
+      new DataTable('#example');
+    }
+
+  }, [deletemsg]);
 
   function loadOrderData() {
     setDataTable($("#example").DataTable());
@@ -54,8 +58,11 @@ function OrderList() {
 
   const deleteOrder = (orderid) => {
     let response = axios.delete(URL + "/delete/" + orderid);
-    dataTable.draw(true);
+
+    setDeletemsg(true);
+    //dataTable.draw(true);
   };
+
   const print = () => {
     axios.get(URL + "/report/" + "pdf");
   };

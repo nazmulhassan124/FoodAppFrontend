@@ -9,19 +9,22 @@ import Button from "react-bootstrap/Button";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 const URL = "http://localhost:8080/food";
 
 function EditPage() {
   const location = useLocation();
+  const history = useHistory();
+
   // cosnt food = location.state;
   const { food_name, unit_price, calorie, cat_id } = location.state;
   const [selectedFood, setSelectedFood] = useState(location.state);
 
-  const [selectedCategory,setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState({});
 
   // console.log(location);
-   //console.log(location.state);
+  console.log(location.state);
   const [categories, setCategories] = useState([]);
 
   //Load Categories
@@ -33,30 +36,47 @@ function EditPage() {
       });
 
       setCategories(a);
-
     });
   }, []);
 
+  //get single category by Foddlist cat id
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/category/get/" + selectedFood.cat_id)
+      .then((res) => {
+        const resdata = res.data;
+        setSelectedCategory(resdata);
+      });
+  }, []);
+  //console.log("single data " + selectedCategory.cat_name)
 
   //load selected categories
-useEffect(()=>{
+  // useEffect(()=>{
 
-    const responseData  = selectedFood;
-    const a= (responseData)=>{ 
-        return {value: responseData.Cat_id, label : responseData.cat_name}
-    }
-    setCategories(a);
+  //     const responseData  = selectedFood;
+  //     const a= (responseData)=>{
+  //         return {value: responseData.Cat_id, label : responseData.cat_name}
+  //     }
+  //     setCategories(a);
 
-},[])
-
+  // },[])
 
   const updateData = (e) => {
     // e.preventDefault();
-     let food = {food_id:selectedFood.food_id, food_name: selectedFood.food_name, unit_price: selectedFood.unit_price, calorie: selectedFood.calorie , cat_id : selectedFood.cat_id};
+    let food = {
+      food_id: selectedFood.food_id,
+      food_name: selectedFood.food_name,
+      unit_price: selectedFood.unit_price,
+      calorie: selectedFood.calorie,
+      cat_id: selectedFood.cat_id,
+    };
 
     //console.log(selectedFood);
 
-      axios.put(URL+'/update', food);
+    axios.put(URL + "/update", food);
+
+    history.push('/');
   };
 
   return (
@@ -162,17 +182,21 @@ useEffect(()=>{
                   <Select
                     options={categories}
                     placeholder="Select Categories"
-                   // value={selectedCategory}
-                    // onChange={(e)=> setCat_id(e.value)} 
+                    // value={selectedCategory}
+                    // onChange={(e)=> setCat_id(e.value)}
                     // value={[{value: selectedFood.cat_id, label: selectedFood.cat_name}]}
-
+                    value={[
+                      {
+                        value: selectedCategory.cat_id,
+                        label: selectedCategory.cat_name
+                      },
+                    ]}
                     onChange={(e) => {
-                        setSelectedFood({
-                          ...selectedFood,
-                          cat_id: e.value,
-                        });
-                      }}
-
+                      setSelectedFood({
+                        ...selectedFood,
+                        cat_id: e.value,
+                      });
+                    }}
                   />
                 </Col>
               </Form.Group>

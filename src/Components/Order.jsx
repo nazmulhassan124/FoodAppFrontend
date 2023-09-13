@@ -9,7 +9,7 @@ import axios from "axios";
 import { useHistory } from 'react-router-dom';
 
 import { useState, useEffect } from "react";
-import { data } from "jquery";
+import { data, isEmptyObject } from "jquery";
 
 const URL = "http://localhost:8080/order";
 
@@ -25,6 +25,10 @@ function Order() {
   const [singlefood, setSinglefood] = useState({});
   const [totalprice, setTotalprice] = useState(0);
   const [orderlistarray, setOrderlistarray] = useState([]);
+
+
+  const [sum,Setsum] = useState();
+
 
   const history = useHistory();
 
@@ -88,10 +92,20 @@ function Order() {
   };
 
   const saveData = (e) => {
-    axios.post(URL + "/postAll", orderlistarray);
 
+    if(orderlistarray.length !==0){
+    axios.post(URL + "/postAll", orderlistarray);
     history.push('/orderlist');
+    }
+
+    alert("Select Food")
   };
+
+  useEffect(()=>{ 
+    if(orderlistarray.length !==0 ){
+     Setsum( orderlistarray.map(datum => datum.total_price).reduce((a, b) => a + b))
+    }
+  },[ orderlistarray])
 
   return (
     <>
@@ -204,8 +218,8 @@ function Order() {
               <Card style={{ width: "18rem" }}>
                 <Card.Img
                   variant="top"
-                  style={{ width: "70%" }}
-                  src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?cs=srgb&dl=pexels-ash-376464.jpg&fm=jpg"
+                  style={{ width: "70%" , marginLeft:"40px"}}
+                  src="https://c4.wallpaperflare.com/wallpaper/757/476/907/food-burgers-burger-white-background-wallpaper-preview.jpg"
                 />
                 <Card.Body>
                   <Card.Title>
@@ -254,8 +268,8 @@ function Order() {
           <tr>
             <td> </td>
             <td> </td>
-            <td>Total :</td>
-            <td> {} </td>
+            <td><strong>Total : </strong></td>
+            <td> <strong>{sum} Tk</strong> </td>
           </tr>
         </tbody>
       </Table>

@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import  { useEffect, useState } from 'react'
 
@@ -14,6 +15,7 @@ const URL = "http://localhost:8080/food";
 
 function AddFood() {
 
+  const history = useHistory();
 
     const [categories, setCategories] = useState([]);
 
@@ -29,16 +31,18 @@ const [calorie,setCalorie]= useState(null);
       e.preventDefault();
       let food = {food_name: food_name, unit_price: unit_price, calorie: calorie , cat_id : cat_id};
      
-console.log(food);
+// console.log(food);
 
-       axios.post(URL+'/post', food);
-      
-    
+if(food.food_name !== null && food.cat_id!==null){
+       axios.post(URL+'/post', food); 
+       history.push('/');
+}
+
+alert("Please Fill all the field")
+
     };
 
     useEffect(() => {
-
-
 
          axios.get('http://localhost:8080/category/getAll').then(res=>{
             // setCategories(res.data)

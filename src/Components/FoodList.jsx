@@ -120,7 +120,7 @@ if( search !=null ){
                 <th>Food Name</th>
                 <th>Price</th>
                 <th>Calories</th>
-                {/* <th>Category ID</th> */}
+                <th>Category ID</th>
                 <th>Action</th>
                 
             </tr>
@@ -134,8 +134,8 @@ if( search !=null ){
                 <td>{row.food_name}</td>
                 <td>{row.unit_price}</td>
                 <td>{row.calorie}</td>
-                {/* <td>{row.cat_id}</td>
-                 */}
+                <td>{row.cat_id}</td>
+                
                  <td>
 
                  <Button variant="success me-3" onClick={()=> handleEdit(row)} >Edit</Button>{' '}
