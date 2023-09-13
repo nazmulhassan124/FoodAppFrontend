@@ -8,6 +8,8 @@ import AddFood from './Components/AddFood';
 import Order from './Components/Order';
 import OrderList from './Components/OrderList';
 import EditPage from './Components/EditPage';
+import ViewOrder from './Components/ViewOrder';
+import FoodListComponent from './Components/FoodListComponent';
 
 function App() {
   return (
@@ -27,6 +29,9 @@ function App() {
        <Route exact path="/orderlist" > <OrderList/> </Route>
        {/* <Route exact path="/edit/:foodId" > <EditPage/> </Route> */}
        <Route exact path="/edit" > <EditPage/> </Route>
+       <Route exact path="/vieworder" > <ViewOrder/> </Route>
+       <Route exact path="/foodlist" > <FoodListComponent/> </Route>
+
        </Switch>
        </Router>
      

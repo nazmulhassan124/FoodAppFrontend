@@ -20,8 +20,8 @@ function EditPage() {
 
   const [selectedCategory,setSelectedCategory] = useState(null);
 
-  console.log(location);
-  console.log(location.state);
+  // console.log(location);
+   //console.log(location.state);
   const [categories, setCategories] = useState([]);
 
   //Load Categories
@@ -36,7 +36,7 @@ function EditPage() {
 
     });
   }, []);
-  
+
 
   //load selected categories
 useEffect(()=>{
@@ -52,11 +52,11 @@ useEffect(()=>{
 
   const updateData = (e) => {
     // e.preventDefault();
-    // let food = {food_name: food_name, unit_price: unit_price, calorie: calorie , cat_id : cat_id};
+     let food = {food_id:selectedFood.food_id, food_name: selectedFood.food_name, unit_price: selectedFood.unit_price, calorie: selectedFood.calorie , cat_id : selectedFood.cat_id};
 
-    console.log(selectedFood);
+    //console.log(selectedFood);
 
-    //  axios.post(URL+'/update', food);
+      axios.put(URL+'/update', food);
   };
 
   return (
@@ -164,11 +164,12 @@ useEffect(()=>{
                     placeholder="Select Categories"
                    // value={selectedCategory}
                     // onChange={(e)=> setCat_id(e.value)} 
+                    // value={[{value: selectedFood.cat_id, label: selectedFood.cat_name}]}
 
                     onChange={(e) => {
                         setSelectedFood({
                           ...selectedFood,
-                          Cat_id: e.value,
+                          cat_id: e.value,
                         });
                       }}
 
